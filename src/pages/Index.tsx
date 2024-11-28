@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card } from "@/components/ui/card";
-import { PlusCircle, MapPin, History, Menu } from "lucide-react";
+import { PlusCircle, MapPin, History, Menu, Search } from "lucide-react";
 import { SiteDetails } from "@/components/SiteDetails";
 import {
   Sheet,
@@ -10,8 +10,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 const Index = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+
   // This would be replaced with real data from your backend
   const sites = [
     { 
@@ -57,10 +61,16 @@ const Index = () => {
     },
   ];
 
+  const filteredSites = sites.filter(site => 
+    site.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    site.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    site.soilType.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="min-h-screen bg-background p-4 space-y-6">
       {/* Sites List Button */}
-      <div className="fixed left-4 top-1/2 -translate-y-1/2 z-10">
+      <div className="fixed left-4 top-4 z-10">
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon" className="h-12 w-12 rounded-full">
@@ -71,9 +81,20 @@ const Index = () => {
             <SheetHeader>
               <SheetTitle>Available Sites</SheetTitle>
             </SheetHeader>
-            <ScrollArea className="h-[calc(100vh-8rem)] mt-4">
+            <div className="py-4">
+              <div className="relative">
+                <Search className="absolute left-2 top-3 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search sites..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-8"
+                />
+              </div>
+            </div>
+            <ScrollArea className="h-[calc(100vh-8rem)]">
               <div className="space-y-4 pr-4">
-                {sites.map((site) => (
+                {filteredSites.map((site) => (
                   <SiteDetails key={site.id} site={site} />
                 ))}
               </div>
@@ -83,7 +104,7 @@ const Index = () => {
       </div>
 
       {/* Main Actions */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 pt-16">
         <Button 
           className="flex items-center gap-2 h-14"
           onClick={() => console.log("Register new site")}
