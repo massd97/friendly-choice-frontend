@@ -12,9 +12,12 @@ import {
 } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [showSites, setShowSites] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
 
   // This would be replaced with real data from your backend
   const sites = [
@@ -116,7 +119,7 @@ const Index = () => {
         <Button 
           variant="secondary"
           className="flex items-center gap-2 h-14"
-          onClick={() => console.log("Check available sites")}
+          onClick={() => setShowSites(true)}
         >
           <MapPin className="w-5 h-5" />
           Available Sites
@@ -125,12 +128,74 @@ const Index = () => {
         <Button 
           variant="outline"
           className="flex items-center gap-2 h-14"
-          onClick={() => console.log("Show transactions")}
+          onClick={() => setShowHistory(true)}
         >
           <History className="w-5 h-5" />
           Transaction History
         </Button>
       </div>
+
+      {/* Available Sites Dialog */}
+      <Dialog open={showSites} onOpenChange={setShowSites}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Available Sites</DialogTitle>
+          </DialogHeader>
+          <ScrollArea className="h-[60vh]">
+            <div className="space-y-4">
+              {sites.map((site) => (
+                <Card key={site.id} className="p-4">
+                  <h3 className="font-semibold text-lg">{site.name}</h3>
+                  <p className="text-sm text-muted-foreground">{site.address}</p>
+                  <div className="mt-2">
+                    <p className="text-sm">Available Soil: {site.soilAmount}</p>
+                    <p className="text-sm">Soil Type: {site.soilType}</p>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </ScrollArea>
+        </DialogContent>
+      </Dialog>
+
+      {/* Transaction History Dialog */}
+      <Dialog open={showHistory} onOpenChange={setShowHistory}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Transaction History</DialogTitle>
+          </DialogHeader>
+          <ScrollArea className="h-[60vh]">
+            <div className="space-y-4">
+              {feedItems.filter(item => item.type === "transaction").map((item) => (
+                <Card key={item.id} className="p-4">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <p className="font-medium">
+                        {item.from} → {item.to}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        Amount: {item.amount}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm text-muted-foreground">
+                        {new Date(item.date).toLocaleDateString()}
+                      </p>
+                      <span className={`text-xs ${
+                        item.status === "completed" 
+                          ? "text-green-500" 
+                          : "text-yellow-500"
+                      }`}>
+                        {item.status.toUpperCase()}
+                      </span>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </ScrollArea>
+        </DialogContent>
+      </Dialog>
 
       {/* Enhanced Feed */}
       <Card className="p-4">
