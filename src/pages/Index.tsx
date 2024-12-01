@@ -14,6 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LiveFeed } from "@/components/LiveFeed";
 import { AvailableSites } from "@/components/AvailableSites";
 import { TransactionHistory } from "@/components/TransactionHistory";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -39,7 +40,7 @@ const Index = () => {
   const feedItems = [
     { 
       id: 1, 
-      type: "transaction",
+      type: "transaction" as const,
       from: "Site A", 
       to: "Site B", 
       amount: "20 cubic meters", 
@@ -48,13 +49,13 @@ const Index = () => {
     },
     { 
       id: 2, 
-      type: "new_site",
+      type: "new_site" as const,
       site: sites[0],
       date: "2024-02-19"
     },
     { 
       id: 3, 
-      type: "transaction",
+      type: "transaction" as const,
       from: "Site C", 
       to: "Site D", 
       amount: "15 cubic meters", 
@@ -69,7 +70,10 @@ const Index = () => {
     site.soilType.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const transactions = feedItems.filter(item => item.type === "transaction");
+  const transactions = feedItems.filter(
+    (item): item is (typeof feedItems[0] & { type: "transaction" }) => 
+    item.type === "transaction"
+  );
 
   return (
     <div className="min-h-screen bg-background p-4 space-y-6">

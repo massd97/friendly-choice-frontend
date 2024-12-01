@@ -1,5 +1,5 @@
-import { Card, ScrollArea } from "@/components/ui/scroll-area";
-import { Card as CardComponent } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Card } from "@/components/ui/card";
 
 interface FeedItem {
   id: number;
@@ -19,12 +19,12 @@ interface FeedItem {
 
 export const LiveFeed = ({ feedItems }: { feedItems: FeedItem[] }) => {
   return (
-    <CardComponent className="p-4">
+    <Card className="p-4">
       <h2 className="text-xl font-semibold mb-4">Live Activity Feed</h2>
       <ScrollArea className="h-[calc(100vh-280px)]">
         <div className="space-y-4">
           {feedItems.map((item) => (
-            <CardComponent 
+            <Card 
               key={item.id} 
               className={`p-4 border-l-4 ${
                 item.type === "new_site" 
@@ -80,10 +80,10 @@ export const LiveFeed = ({ feedItems }: { feedItems: FeedItem[] }) => {
                   </div>
                 </div>
               )}
-            </CardComponent>
+            </Card>
           ))}
         </div>
       </ScrollArea>
-    </CardComponent>
+    </Card>
   );
 };

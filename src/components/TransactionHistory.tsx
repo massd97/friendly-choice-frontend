@@ -1,5 +1,5 @@
-import { Card, ScrollArea } from "@/components/ui/scroll-area";
-import { Card as CardComponent } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useState } from "react";
@@ -24,7 +24,7 @@ export const TransactionHistory = ({ transactions }: { transactions: Transaction
   );
 
   return (
-    <CardComponent className="p-4">
+    <Card className="p-4">
       <h2 className="text-xl font-semibold mb-4">Transaction History</h2>
       <div className="relative mb-4">
         <Search className="absolute left-2 top-3 h-4 w-4 text-muted-foreground" />
@@ -38,7 +38,7 @@ export const TransactionHistory = ({ transactions }: { transactions: Transaction
       <ScrollArea className="h-[calc(100vh-280px)]">
         <div className="space-y-4">
           {filteredTransactions.map((item) => (
-            <CardComponent key={item.id} className="p-4">
+            <Card key={item.id} className="p-4">
               <div className="flex justify-between items-start">
                 <div>
                   <p className="font-medium">
@@ -61,10 +61,10 @@ export const TransactionHistory = ({ transactions }: { transactions: Transaction
                   </span>
                 </div>
               </div>
-            </CardComponent>
+            </Card>
           ))}
         </div>
       </ScrollArea>
-    </CardComponent>
+    </Card>
   );
 };
