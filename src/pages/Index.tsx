@@ -1,7 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Card } from "@/components/ui/card";
-import { PlusCircle, MapPin, History, Menu, Search } from "lucide-react";
+import { PlusCircle, Menu, Search } from "lucide-react";
 import { SiteDetails } from "@/components/SiteDetails";
 import {
   Sheet,
@@ -12,12 +10,13 @@ import {
 } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { LiveFeed } from "@/components/LiveFeed";
+import { AvailableSites } from "@/components/AvailableSites";
+import { TransactionHistory } from "@/components/TransactionHistory";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [showSites, setShowSites] = useState(false);
-  const [showHistory, setShowHistory] = useState(false);
 
   // This would be replaced with real data from your backend
   const sites = [
@@ -70,6 +69,8 @@ const Index = () => {
     site.soilType.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const transactions = feedItems.filter(item => item.type === "transaction");
+
   return (
     <div className="min-h-screen bg-background p-4 space-y-6">
       {/* Sites List Button */}
@@ -107,7 +108,7 @@ const Index = () => {
       </div>
 
       {/* Main Actions */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 pt-16">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 pt-16">
         <Button 
           className="flex items-center gap-2 h-14"
           onClick={() => console.log("Register new site")}
@@ -115,155 +116,25 @@ const Index = () => {
           <PlusCircle className="w-5 h-5" />
           Register New Site
         </Button>
-
-        <Button 
-          variant="secondary"
-          className="flex items-center gap-2 h-14"
-          onClick={() => setShowSites(true)}
-        >
-          <MapPin className="w-5 h-5" />
-          Available Sites
-        </Button>
-
-        <Button 
-          variant="outline"
-          className="flex items-center gap-2 h-14"
-          onClick={() => setShowHistory(true)}
-        >
-          <History className="w-5 h-5" />
-          Transaction History
-        </Button>
       </div>
 
-      {/* Available Sites Dialog */}
-      <Dialog open={showSites} onOpenChange={setShowSites}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>Available Sites</DialogTitle>
-          </DialogHeader>
-          <ScrollArea className="h-[60vh]">
-            <div className="space-y-4">
-              {sites.map((site) => (
-                <Card key={site.id} className="p-4">
-                  <h3 className="font-semibold text-lg">{site.name}</h3>
-                  <p className="text-sm text-muted-foreground">{site.address}</p>
-                  <div className="mt-2">
-                    <p className="text-sm">Available Soil: {site.soilAmount}</p>
-                    <p className="text-sm">Soil Type: {site.soilType}</p>
-                  </div>
-                </Card>
-              ))}
-            </div>
-          </ScrollArea>
-        </DialogContent>
-      </Dialog>
-
-      {/* Transaction History Dialog */}
-      <Dialog open={showHistory} onOpenChange={setShowHistory}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>Transaction History</DialogTitle>
-          </DialogHeader>
-          <ScrollArea className="h-[60vh]">
-            <div className="space-y-4">
-              {feedItems.filter(item => item.type === "transaction").map((item) => (
-                <Card key={item.id} className="p-4">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="font-medium">
-                        {item.from} → {item.to}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        Amount: {item.amount}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm text-muted-foreground">
-                        {new Date(item.date).toLocaleDateString()}
-                      </p>
-                      <span className={`text-xs ${
-                        item.status === "completed" 
-                          ? "text-green-500" 
-                          : "text-yellow-500"
-                      }`}>
-                        {item.status.toUpperCase()}
-                      </span>
-                    </div>
-                  </div>
-                </Card>
-              ))}
-            </div>
-          </ScrollArea>
-        </DialogContent>
-      </Dialog>
-
-      {/* Enhanced Feed */}
-      <Card className="p-4">
-        <h2 className="text-xl font-semibold mb-4">Live Activity Feed</h2>
-        <ScrollArea className="h-[calc(100vh-280px)]">
-          <div className="space-y-4">
-            {feedItems.map((item) => (
-              <Card 
-                key={item.id} 
-                className={`p-4 border-l-4 ${
-                  item.type === "new_site" 
-                    ? "border-l-blue-500"
-                    : item.type === "transaction" && item.status === "completed"
-                    ? "border-l-green-500"
-                    : "border-l-yellow-500"
-                }`}
-              >
-                {item.type === "transaction" ? (
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="font-medium">
-                        {item.from} → {item.to}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        Amount: {item.amount}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm text-muted-foreground">
-                        {new Date(item.date).toLocaleDateString()}
-                      </p>
-                      <span className={`text-xs ${
-                        item.status === "completed" 
-                          ? "text-green-500" 
-                          : "text-yellow-500"
-                      }`}>
-                        {item.status.toUpperCase()}
-                      </span>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="font-medium">
-                        New Site Registered: {item.site.name}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {item.site.address}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {item.site.soilAmount} of {item.site.soilType}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm text-muted-foreground">
-                        {new Date(item.date).toLocaleDateString()}
-                      </p>
-                      <span className="text-xs text-blue-500">
-                        NEW SITE
-                      </span>
-                    </div>
-                  </div>
-                )}
-              </Card>
-            ))}
-          </div>
-        </ScrollArea>
-      </Card>
+      {/* Tabs Interface */}
+      <Tabs defaultValue="feed" className="w-full">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="feed">Live Feed</TabsTrigger>
+          <TabsTrigger value="sites">Available Sites</TabsTrigger>
+          <TabsTrigger value="transactions">Transaction History</TabsTrigger>
+        </TabsList>
+        <TabsContent value="feed">
+          <LiveFeed feedItems={feedItems} />
+        </TabsContent>
+        <TabsContent value="sites">
+          <AvailableSites sites={sites} />
+        </TabsContent>
+        <TabsContent value="transactions">
+          <TransactionHistory transactions={transactions} />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
