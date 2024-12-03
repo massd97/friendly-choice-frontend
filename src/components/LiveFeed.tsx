@@ -7,6 +7,8 @@ interface FeedItem {
   from?: string;
   to?: string;
   amount?: string;
+  soilType?: string;
+  contactInfo?: string;
   date: string;
   status?: string;
   site?: {
@@ -14,6 +16,7 @@ interface FeedItem {
     address: string;
     soilAmount: string;
     soilType: string;
+    contactInfo: string;
   };
 }
 
@@ -43,6 +46,12 @@ export const LiveFeed = ({ feedItems }: { feedItems: FeedItem[] }) => {
                     <p className="text-sm text-muted-foreground">
                       Amount: {item.amount}
                     </p>
+                    <p className="text-sm text-muted-foreground">
+                      Soil Type: {item.soilType}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      Contact: {item.contactInfo}
+                    </p>
                   </div>
                   <div className="text-right">
                     <p className="text-sm text-muted-foreground">
@@ -68,6 +77,9 @@ export const LiveFeed = ({ feedItems }: { feedItems: FeedItem[] }) => {
                     </p>
                     <p className="text-sm text-muted-foreground">
                       {item.site?.soilAmount} of {item.site?.soilType}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      Contact: {item.site?.contactInfo}
                     </p>
                   </div>
                   <div className="text-right">

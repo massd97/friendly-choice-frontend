@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LiveFeed } from "@/components/LiveFeed";
 import { AvailableSites } from "@/components/AvailableSites";
 import { TransactionHistory } from "@/components/TransactionHistory";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { SoilMap } from "@/components/SoilMap";
 import {
   Dialog,
   DialogContent,
@@ -45,6 +45,7 @@ interface NewSiteForm {
   address: string;
   soilAmount: string;
   soilType: string;
+  contactInfo: string;
 }
 
 interface TransactionForm {
@@ -52,10 +53,11 @@ interface TransactionForm {
   from: string;
   to: string;
   amount: string;
+  soilType: string;
+  contactInfo: string;
 }
 
 const Index = () => {
-  const [searchQuery, setSearchQuery] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isTransactionDialogOpen, setIsTransactionDialogOpen] = useState(false);
   const [feedItems, setFeedItems] = useState<Array<{
@@ -64,6 +66,8 @@ const Index = () => {
     from?: string;
     to?: string;
     amount?: string;
+    soilType?: string;
+    contactInfo?: string;
     date: string;
     status?: string;
     site?: {
@@ -71,6 +75,7 @@ const Index = () => {
       address: string;
       soilAmount: string;
       soilType: string;
+      contactInfo: string;
     };
   }>>([
     {
@@ -79,6 +84,8 @@ const Index = () => {
       from: "Site A",
       to: "Site B",
       amount: "20 cubic meters",
+      soilType: "Sandy loam",
+      contactInfo: "John Doe (555-0123)",
       date: "2024-02-20",
       status: "completed",
     },
@@ -90,6 +97,7 @@ const Index = () => {
         address: "123 Main St, City",
         soilAmount: "500 cubic meters",
         soilType: "Sandy loam",
+        contactInfo: "Jane Smith (555-0124)",
       },
       date: "2024-02-19",
     },
@@ -101,6 +109,7 @@ const Index = () => {
       address: "",
       soilAmount: "",
       soilType: "",
+      contactInfo: "",
     },
   });
 
@@ -110,6 +119,8 @@ const Index = () => {
       from: "",
       to: "",
       amount: "",
+      soilType: "",
+      contactInfo: "",
     },
   });
 
@@ -122,6 +133,7 @@ const Index = () => {
         address: data.address,
         soilAmount: data.soilAmount,
         soilType: data.soilType,
+        contactInfo: data.contactInfo,
       },
       date: new Date().toISOString(),
     };
@@ -139,6 +151,8 @@ const Index = () => {
       from: data.from,
       to: data.to,
       amount: data.amount,
+      soilType: data.soilType,
+      contactInfo: data.contactInfo,
       date: new Date().toISOString(),
       status: "pending",
     };
@@ -150,7 +164,7 @@ const Index = () => {
   };
 
   const transactions = feedItems
-    .filter((item): item is { id: number; type: "transaction"; from: string; to: string; amount: string; date: string; status: string; } => item.type === "transaction");
+    .filter((item): item is { id: number; type: "transaction"; from: string; to: string; amount: string; soilType: string; contactInfo: string; date: string; status: string; } => item.type === "transaction");
     
   const sites = feedItems
     .filter((item) => item.type === "new_site")
@@ -175,7 +189,6 @@ const Index = () => {
                 Access different sections of the application
               </SheetDescription>
             </SheetHeader>
-            {/* Add menu items here */}
           </SheetContent>
         </Sheet>
 
@@ -248,6 +261,32 @@ const Index = () => {
                         <FormLabel>Amount</FormLabel>
                         <FormControl>
                           <Input placeholder="e.g., 500 cubic meters" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={transactionForm.control}
+                    name="soilType"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Soil Type</FormLabel>
+                        <FormControl>
+                          <Input placeholder="e.g., Sandy loam" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={transactionForm.control}
+                    name="contactInfo"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Contact Information</FormLabel>
+                        <FormControl>
+                          <Input placeholder="e.g., John Doe (555-0123)" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -326,6 +365,19 @@ const Index = () => {
                       </FormItem>
                     )}
                   />
+                  <FormField
+                    control={form.control}
+                    name="contactInfo"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Contact Information</FormLabel>
+                        <FormControl>
+                          <Input placeholder="e.g., John Doe (555-0123)" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                   <Button type="submit" className="w-full">
                     Register Site
                   </Button>
@@ -337,10 +389,11 @@ const Index = () => {
       </div>
 
       <Tabs defaultValue="feed" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="feed">Live Feed</TabsTrigger>
           <TabsTrigger value="sites">Available Sites</TabsTrigger>
           <TabsTrigger value="transactions">Transaction History</TabsTrigger>
+          <TabsTrigger value="map">Soil Map</TabsTrigger>
         </TabsList>
         <TabsContent value="feed">
           <LiveFeed feedItems={feedItems} />
@@ -350,6 +403,9 @@ const Index = () => {
         </TabsContent>
         <TabsContent value="transactions">
           <TransactionHistory transactions={transactions} />
+        </TabsContent>
+        <TabsContent value="map">
+          <SoilMap sites={sites} />
         </TabsContent>
       </Tabs>
     </div>

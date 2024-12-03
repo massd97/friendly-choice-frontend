@@ -10,6 +10,8 @@ interface Transaction {
   from: string;
   to: string;
   amount: string;
+  soilType: string;
+  contactInfo: string;
   date: string;
   status: string;
 }
@@ -20,7 +22,8 @@ export const TransactionHistory = ({ transactions }: { transactions: Transaction
   const filteredTransactions = transactions.filter(transaction => 
     transaction.from.toLowerCase().includes(searchQuery.toLowerCase()) ||
     transaction.to.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    transaction.amount.toLowerCase().includes(searchQuery.toLowerCase())
+    transaction.amount.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    transaction.soilType.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -46,6 +49,12 @@ export const TransactionHistory = ({ transactions }: { transactions: Transaction
                   </p>
                   <p className="text-sm text-muted-foreground">
                     Amount: {item.amount}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    Soil Type: {item.soilType}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    Contact: {item.contactInfo}
                   </p>
                 </div>
                 <div className="text-right">

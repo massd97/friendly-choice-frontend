@@ -10,6 +10,7 @@ interface Site {
   address: string;
   soilAmount: string;
   soilType: string;
+  contactInfo: string;
 }
 
 export const AvailableSites = ({ sites }: { sites: Site[] }) => {
@@ -42,6 +43,7 @@ export const AvailableSites = ({ sites }: { sites: Site[] }) => {
               <div className="mt-2">
                 <p className="text-sm">Available Soil: {site.soilAmount}</p>
                 <p className="text-sm">Soil Type: {site.soilType}</p>
+                <p className="text-sm">Contact: {site.contactInfo}</p>
               </div>
             </Card>
           ))}
