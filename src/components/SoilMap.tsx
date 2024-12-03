@@ -28,41 +28,39 @@ export const SoilMap = ({ sites }: { sites: Site[] }) => {
     parseFloat(site.soilAmount.split(' ')[0]) > 0 && site.location
   );
 
-  const defaultCenter: [number, number] = [51.505, -0.09];
+  // Center on Tokyo, Japan
+  const defaultCenter = { lat: 35.6762, lng: 139.6503 };
 
   return (
     <div className="p-4">
-      <h2 className="text-xl font-semibold mb-4">Available Soil Sites Map</h2>
+      <h2 className="text-xl font-semibold mb-4">土壌サイトマップ</h2>
       <div style={{ height: "calc(100vh - 280px)", position: "relative", zIndex: 0 }}>
         <MapContainer
-          center={defaultCenter as [number, number]}
-          zoom={13}
-          scrollWheelZoom={false}
+          center={[defaultCenter.lat, defaultCenter.lng]}
+          zoom={5}
+          scrollWheelZoom={true}
           style={{ height: "100%", width: "100%" }}
         >
           <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          {sitesWithSoil.map((site) => {
-            const position: [number, number] = [site.location!.lat, site.location!.lng];
-            return (
-              <Marker 
-                key={site.id} 
-                position={position}
-              >
-                <Popup>
-                  <div>
-                    <h3 className="font-bold">{site.name}</h3>
-                    <p>{site.address}</p>
-                    <p>Available Soil: {site.soilAmount}</p>
-                    <p>Soil Type: {site.soilType}</p>
-                    <p>Contact: {site.contactInfo}</p>
-                  </div>
-                </Popup>
-              </Marker>
-            );
-          })}
+          {sitesWithSoil.map((site) => (
+            <Marker 
+              key={site.id} 
+              position={[site.location!.lat, site.location!.lng]}
+            >
+              <Popup>
+                <div>
+                  <h3 className="font-bold">{site.name}</h3>
+                  <p>{site.address}</p>
+                  <p>利用可能な土壌: {site.soilAmount}</p>
+                  <p>土壌タイプ: {site.soilType}</p>
+                  <p>連絡先: {site.contactInfo}</p>
+                </div>
+              </Popup>
+            </Marker>
+          ))}
         </MapContainer>
       </div>
     </div>

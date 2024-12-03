@@ -26,13 +26,17 @@ export const TransactionHistory = ({ transactions }: { transactions: Transaction
     transaction.soilType.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const getStatusText = (status: string) => {
+    return status === "completed" ? "完了" : "保留中";
+  };
+
   return (
     <Card className="p-4">
-      <h2 className="text-xl font-semibold mb-4">Transaction History</h2>
+      <h2 className="text-xl font-semibold mb-4">取引履歴</h2>
       <div className="relative mb-4">
         <Search className="absolute left-2 top-3 h-4 w-4 text-muted-foreground" />
         <Input
-          placeholder="Search transactions..."
+          placeholder="取引を検索..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="pl-8"
@@ -48,25 +52,25 @@ export const TransactionHistory = ({ transactions }: { transactions: Transaction
                     {item.from} → {item.to}
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    Amount: {item.amount}
+                    量: {item.amount}
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    Soil Type: {item.soilType}
+                    土壌タイプ: {item.soilType}
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    Contact: {item.contactInfo}
+                    連絡先: {item.contactInfo}
                   </p>
                 </div>
                 <div className="text-right">
                   <p className="text-sm text-muted-foreground">
-                    {new Date(item.date).toLocaleDateString()}
+                    {new Date(item.date).toLocaleDateString('ja-JP')}
                   </p>
                   <span className={`text-xs ${
                     item.status === "completed" 
                       ? "text-green-500" 
                       : "text-yellow-500"
                   }`}>
-                    {item.status.toUpperCase()}
+                    {getStatusText(item.status)}
                   </span>
                 </div>
               </div>
