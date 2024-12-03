@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useState } from "react";
 
+// Define TypeScript interface for site data
 interface Site {
   id: number;
   name: string;
@@ -14,8 +15,10 @@ interface Site {
 }
 
 export const AvailableSites = ({ sites }: { sites: Site[] }) => {
+  // State for search functionality
   const [searchQuery, setSearchQuery] = useState("");
 
+  // Filter sites based on search query
   const filteredSites = sites.filter(site => 
     site.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     site.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -25,6 +28,7 @@ export const AvailableSites = ({ sites }: { sites: Site[] }) => {
   return (
     <Card className="p-4">
       <h2 className="text-xl font-semibold mb-4">利用可能なサイト</h2>
+      {/* Search input with icon */}
       <div className="relative mb-4">
         <Search className="absolute left-2 top-3 h-4 w-4 text-muted-foreground" />
         <Input
@@ -34,6 +38,7 @@ export const AvailableSites = ({ sites }: { sites: Site[] }) => {
           className="pl-8"
         />
       </div>
+      {/* Scrollable area for site cards */}
       <ScrollArea className="h-[calc(100vh-280px)]">
         <div className="space-y-4">
           {filteredSites.map((site) => (

@@ -1,6 +1,7 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card } from "@/components/ui/card";
 
+// Define TypeScript interfaces for feed items
 interface FeedItem {
   id: number;
   type: "transaction" | "new_site";
@@ -24,20 +25,24 @@ export const LiveFeed = ({ feedItems }: { feedItems: FeedItem[] }) => {
   return (
     <Card className="p-4">
       <h2 className="text-xl font-semibold mb-4">Live Activity Feed</h2>
+      {/* Scrollable area for feed items with dynamic height */}
       <ScrollArea className="h-[calc(100vh-280px)]">
         <div className="space-y-4">
           {feedItems.map((item) => (
             <Card 
               key={item.id} 
+              // Dynamic border color based on item type and status
               className={`p-4 border-l-4 ${
                 item.type === "new_site" 
-                  ? "border-l-blue-500"
+                  ? "border-l-blue-500"   // New site
                   : item.type === "transaction" && item.status === "completed"
-                  ? "border-l-green-500"
-                  : "border-l-yellow-500"
+                  ? "border-l-green-500"  // Completed transaction
+                  : "border-l-yellow-500" // Pending transaction
               }`}
             >
+              {/* Conditional rendering based on item type */}
               {item.type === "transaction" ? (
+                // Transaction item layout
                 <div className="flex justify-between items-start">
                   <div>
                     <p className="font-medium">
@@ -67,6 +72,7 @@ export const LiveFeed = ({ feedItems }: { feedItems: FeedItem[] }) => {
                   </div>
                 </div>
               ) : (
+                // New site item layout
                 <div className="flex justify-between items-start">
                   <div>
                     <p className="font-medium">

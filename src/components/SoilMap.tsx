@@ -1,6 +1,7 @@
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import { useState } from 'react';
 
+// Define TypeScript interfaces for better type safety
 interface Site {
   id: number;
   name: string;
@@ -15,23 +16,23 @@ interface Site {
   };
 }
 
-// Map container styles
+// Map container styles - defines the dimensions of the map
 const containerStyle = {
   width: '100%',
   height: '100%'
 };
 
-// Default center (Tokyo, Japan)
+// Default center coordinates (Tokyo, Japan)
 const defaultCenter = {
   lat: 35.6762,
   lng: 139.6503
 };
 
 export const SoilMap = ({ sites }: { sites: Site[] }) => {
-  // State for handling InfoWindow
+  // State for managing the selected site in the InfoWindow
   const [selectedSite, setSelectedSite] = useState<Site | null>(null);
 
-  // Filter sites that have soil and location data
+  // Filter out sites that have soil and valid location data
   const sitesWithSoil = sites.filter(site => 
     parseFloat(site.soilAmount.split(' ')[0]) > 0 && site.location
   );
@@ -55,7 +56,7 @@ export const SoilMap = ({ sites }: { sites: Site[] }) => {
               fullscreenControl: true,
             }}
           >
-            {/* Render markers for each site */}
+            {/* Render markers for each site with soil */}
             {sitesWithSoil.map((site) => (
               <Marker
                 key={site.id}
@@ -67,7 +68,7 @@ export const SoilMap = ({ sites }: { sites: Site[] }) => {
               />
             ))}
 
-            {/* Info Window for selected site */}
+            {/* Info Window displays when a marker is clicked */}
             {selectedSite && (
               <InfoWindow
                 position={{

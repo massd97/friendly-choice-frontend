@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useState } from "react";
 
+// Define TypeScript interface for transaction data
 interface Transaction {
   id: number;
   type: "transaction";
@@ -17,8 +18,10 @@ interface Transaction {
 }
 
 export const TransactionHistory = ({ transactions }: { transactions: Transaction[] }) => {
+  // State for search functionality
   const [searchQuery, setSearchQuery] = useState("");
 
+  // Filter transactions based on search query
   const filteredTransactions = transactions.filter(transaction => 
     transaction.from.toLowerCase().includes(searchQuery.toLowerCase()) ||
     transaction.to.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -26,6 +29,7 @@ export const TransactionHistory = ({ transactions }: { transactions: Transaction
     transaction.soilType.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  // Helper function to translate status text to Japanese
   const getStatusText = (status: string) => {
     return status === "completed" ? "完了" : "保留中";
   };
@@ -33,6 +37,7 @@ export const TransactionHistory = ({ transactions }: { transactions: Transaction
   return (
     <Card className="p-4">
       <h2 className="text-xl font-semibold mb-4">取引履歴</h2>
+      {/* Search input with icon */}
       <div className="relative mb-4">
         <Search className="absolute left-2 top-3 h-4 w-4 text-muted-foreground" />
         <Input
@@ -42,6 +47,7 @@ export const TransactionHistory = ({ transactions }: { transactions: Transaction
           className="pl-8"
         />
       </div>
+      {/* Scrollable area for transaction cards */}
       <ScrollArea className="h-[calc(100vh-280px)]">
         <div className="space-y-4">
           {filteredTransactions.map((item) => (

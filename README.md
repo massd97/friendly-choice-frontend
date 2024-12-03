@@ -4,6 +4,50 @@
 
 **URL**: https://lovable.dev/projects/c8619341-0b9a-4dd6-9578-61d31961e19b
 
+## Frontend Architecture Documentation
+
+### Overview
+This application is a soil management system built with React, TypeScript, and modern web technologies. It helps users track and manage soil resources across different locations.
+
+### Key Components
+
+1. **Main Layout (Index.tsx)**
+   - Serves as the main container for the application
+   - Implements a tab-based navigation system
+   - Manages global state for sites and transactions
+
+2. **Core Features**
+   - **Live Feed**: Real-time activity tracking of soil transactions and new site registrations
+   - **Available Sites**: List of locations with available soil
+   - **Transaction History**: Record of all soil transfers
+   - **Soil Map**: Interactive Google Maps integration showing site locations
+
+3. **Component Structure**
+   - `LiveFeed.tsx`: Displays real-time updates in a scrollable feed
+   - `AvailableSites.tsx`: Shows searchable list of sites with soil
+   - `TransactionHistory.tsx`: Lists all transactions with filtering
+   - `SoilMap.tsx`: Interactive map showing site locations
+   - `SiteDetails.tsx`: Displays detailed information about each site
+
+### State Management
+- Uses React's built-in state management with useState
+- Implements @tanstack/react-query for data fetching
+- Maintains separate states for sites, transactions, and UI elements
+
+### UI/UX Features
+- Fully responsive design using Tailwind CSS
+- Shadcn UI components for consistent styling
+- Interactive elements with proper loading states
+- Search and filter capabilities
+- Toast notifications for user feedback
+
+### Technologies Used
+- React + TypeScript
+- Tailwind CSS for styling
+- Shadcn UI for components
+- Google Maps API for mapping
+- React Query for data management
+
 ## How can I edit this code?
 
 There are several ways of editing your application.
