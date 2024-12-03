@@ -43,7 +43,7 @@ export const SoilMap = ({ sites }: { sites: Site[] }) => {
       
       {/* Map container with responsive height */}
       <div className="relative w-full h-[50vh] md:h-[calc(100vh-280px)] rounded-lg overflow-hidden">
-        <LoadScript googleMapsApiKey={process.env.GOOGLE_MAPS_API_KEY || ''}>
+        <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ''}>
           <GoogleMap
             mapContainerStyle={containerStyle}
             center={defaultCenter}
