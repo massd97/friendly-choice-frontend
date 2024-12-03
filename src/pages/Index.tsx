@@ -58,7 +58,7 @@ const Index = () => {
     setFeedItems((prev) => [newSite, ...prev]);
   };
 
-  const onTransactionSubmit = (data: Omit<Transaction, 'id' | 'date' | 'status'>) => {
+  const onTransactionSubmit = (data: { type: "request" | "accept" } & Omit<Transaction, "id" | "date" | "status" | "type">) => {
     const newTransaction = {
       id: feedItems.length + 1,
       type: "transaction" as const,
@@ -81,17 +81,17 @@ const Index = () => {
     }));
 
   return (
-    <div className="min-h-screen bg-background p-4 space-y-6">
-      <div className="flex justify-end items-center pt-16">
-        <div className="flex gap-4">
+    <div className="min-h-screen bg-background p-2 md:p-4 space-y-4 md:space-y-6">
+      <div className="flex justify-end items-center pt-4 md:pt-16">
+        <div className="flex flex-col md:flex-row gap-2 md:gap-4 w-full md:w-auto">
           <Dialog open={isTransactionDialogOpen} onOpenChange={setIsTransactionDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="flex items-center gap-2 h-14">
+              <Button className="flex items-center gap-2 h-12 md:h-14 w-full md:w-auto">
                 <PlusCircle className="w-5 h-5" />
                 新規取引
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="max-w-lg w-[95vw] md:w-full">
               <DialogHeader>
                 <DialogTitle>新規取引の登録</DialogTitle>
               </DialogHeader>
@@ -104,12 +104,12 @@ const Index = () => {
 
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="flex items-center gap-2 h-14">
+              <Button className="flex items-center gap-2 h-12 md:h-14 w-full md:w-auto">
                 <PlusCircle className="w-5 h-5" />
                 新規サイト登録
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="max-w-lg w-[95vw] md:w-full">
               <DialogHeader>
                 <DialogTitle>新規サイトの登録</DialogTitle>
               </DialogHeader>
@@ -123,7 +123,7 @@ const Index = () => {
       </div>
 
       <Tabs defaultValue="feed" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-2 md:grid-cols-4">
           <TabsTrigger value="feed">ライブフィード</TabsTrigger>
           <TabsTrigger value="sites">利用可能なサイト</TabsTrigger>
           <TabsTrigger value="transactions">取引履歴</TabsTrigger>
