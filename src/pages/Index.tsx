@@ -81,17 +81,17 @@ const Index = () => {
     }));
 
   return (
-    <div className="min-h-screen bg-background p-2 md:p-4 space-y-4 md:space-y-6">
-      <div className="flex justify-end items-center pt-4 md:pt-16">
-        <div className="flex flex-col md:flex-row gap-2 md:gap-4 w-full md:w-auto">
+    <div className="min-h-screen bg-background px-2 py-4 md:p-6 space-y-6">
+      <div className="flex justify-center md:justify-end items-center pt-2 md:pt-16 max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row gap-3 md:gap-4 w-full md:w-auto px-2">
           <Dialog open={isTransactionDialogOpen} onOpenChange={setIsTransactionDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="flex items-center gap-2 h-12 md:h-14 w-full md:w-auto">
-                <PlusCircle className="w-5 h-5" />
+              <Button className="flex items-center justify-center gap-2 h-11 md:h-12 w-full md:w-auto text-sm md:text-base">
+                <PlusCircle className="w-4 h-4 md:w-5 md:h-5" />
                 新規取引
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-lg w-[95vw] md:w-full">
+            <DialogContent className="max-w-lg w-[95vw] md:w-full p-4 md:p-6">
               <DialogHeader>
                 <DialogTitle>新規取引の登録</DialogTitle>
               </DialogHeader>
@@ -104,12 +104,12 @@ const Index = () => {
 
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="flex items-center gap-2 h-12 md:h-14 w-full md:w-auto">
-                <PlusCircle className="w-5 h-5" />
+              <Button className="flex items-center justify-center gap-2 h-11 md:h-12 w-full md:w-auto text-sm md:text-base">
+                <PlusCircle className="w-4 h-4 md:w-5 md:h-5" />
                 新規サイト登録
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-lg w-[95vw] md:w-full">
+            <DialogContent className="max-w-lg w-[95vw] md:w-full p-4 md:p-6">
               <DialogHeader>
                 <DialogTitle>新規サイトの登録</DialogTitle>
               </DialogHeader>
@@ -122,26 +122,30 @@ const Index = () => {
         </div>
       </div>
 
-      <Tabs defaultValue="feed" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 md:grid-cols-4">
-          <TabsTrigger value="feed">ライブフィード</TabsTrigger>
-          <TabsTrigger value="sites">利用可能なサイト</TabsTrigger>
-          <TabsTrigger value="transactions">取引履歴</TabsTrigger>
-          <TabsTrigger value="map">土壌マップ</TabsTrigger>
-        </TabsList>
-        <TabsContent value="feed">
-          <LiveFeed feedItems={feedItems} />
-        </TabsContent>
-        <TabsContent value="sites">
-          <AvailableSites sites={sites} />
-        </TabsContent>
-        <TabsContent value="transactions">
-          <TransactionHistory transactions={transactions} />
-        </TabsContent>
-        <TabsContent value="map">
-          <SoilMap sites={sites} />
-        </TabsContent>
-      </Tabs>
+      <div className="max-w-7xl mx-auto px-2">
+        <Tabs defaultValue="feed" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 mb-4">
+            <TabsTrigger value="feed" className="text-sm md:text-base">ライブフィード</TabsTrigger>
+            <TabsTrigger value="sites" className="text-sm md:text-base">利用可能なサイト</TabsTrigger>
+            <TabsTrigger value="transactions" className="text-sm md:text-base">取引履歴</TabsTrigger>
+            <TabsTrigger value="map" className="text-sm md:text-base">土壌マップ</TabsTrigger>
+          </TabsList>
+          <div className="mt-4">
+            <TabsContent value="feed">
+              <LiveFeed feedItems={feedItems} />
+            </TabsContent>
+            <TabsContent value="sites">
+              <AvailableSites sites={sites} />
+            </TabsContent>
+            <TabsContent value="transactions">
+              <TransactionHistory transactions={transactions} />
+            </TabsContent>
+            <TabsContent value="map">
+              <SoilMap sites={sites} />
+            </TabsContent>
+          </div>
+        </Tabs>
+      </div>
     </div>
   );
 };
