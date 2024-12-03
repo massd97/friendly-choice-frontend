@@ -28,14 +28,14 @@ export const SoilMap = ({ sites }: { sites: Site[] }) => {
     parseFloat(site.soilAmount.split(' ')[0]) > 0 && site.location
   );
 
-  const defaultCenter: L.LatLngTuple = [51.505, -0.09];
+  const defaultCenter: [number, number] = [51.505, -0.09];
 
   return (
     <div className="p-4">
       <h2 className="text-xl font-semibold mb-4">Available Soil Sites Map</h2>
-      <div style={{ height: "calc(100vh - 280px)" }}>
+      <div style={{ height: "calc(100vh - 280px)", position: "relative", zIndex: 0 }}>
         <MapContainer
-          center={defaultCenter}
+          center={defaultCenter as [number, number]}
           zoom={13}
           scrollWheelZoom={false}
           style={{ height: "100%", width: "100%" }}
@@ -45,7 +45,7 @@ export const SoilMap = ({ sites }: { sites: Site[] }) => {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
           {sitesWithSoil.map((site) => {
-            const position: L.LatLngTuple = [site.location!.lat, site.location!.lng];
+            const position: [number, number] = [site.location!.lat, site.location!.lng];
             return (
               <Marker 
                 key={site.id} 
