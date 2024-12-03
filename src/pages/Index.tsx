@@ -63,11 +63,17 @@ const Index = () => {
     setIsDialogOpen(false);
   };
 
+  // Updated transaction submission handler to correctly format transaction data
   const onTransactionSubmit = (data: Omit<Transaction, "id" | "date" | "status" | "type">) => {
     const newTransaction = {
       id: feedItems.length + 1,
       type: "transaction" as const,
-      ...data,
+      from: data.from,
+      to: data.to,
+      amount: data.amount,
+      soilType: data.soilType,
+      contactInfo: data.contactInfo,
+      contactName: data.contactName,
       date: new Date().toISOString(),
       status: "保留中",
     };
