@@ -149,10 +149,15 @@ const Index = () => {
     toast.success("Transaction registered successfully!");
   };
 
-  const transactions = feedItems.filter((item) => item.type === "transaction");
+  const transactions = feedItems
+    .filter((item): item is { id: number; type: "transaction"; from: string; to: string; amount: string; date: string; status: string; } => item.type === "transaction");
+    
   const sites = feedItems
     .filter((item) => item.type === "new_site")
-    .map((item) => item.site!);
+    .map((item) => ({
+      id: item.id,
+      ...item.site!
+    }));
 
   return (
     <div className="min-h-screen bg-background p-4 space-y-6">
