@@ -6,6 +6,7 @@ import { LiveFeed } from "@/components/LiveFeed";
 import { AvailableSites } from "@/components/AvailableSites";
 import { TransactionHistory } from "@/components/TransactionHistory";
 import { SoilMap } from "@/components/SoilMap";
+import { useToast } from "@/components/ui/use-toast";
 import {
   Dialog,
   DialogContent,
@@ -16,82 +17,74 @@ import {
 import { NewSiteForm } from "@/components/forms/NewSiteForm";
 import { TransactionForm } from "@/components/forms/TransactionForm";
 import { FeedItem, Transaction, Site } from "@/types";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { api } from "@/lib/api";
 
 const Index = () => {
   // Dialog state management
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isTransactionDialogOpen, setIsTransactionDialogOpen] = useState(false);
-  
-  // Feed items state management
-  const [feedItems, setFeedItems] = useState<FeedItem[]>([
-    {
-      id: 1,
-      type: "transaction",
-      from: "サイトA",
-      to: "サイトB",
-      amount: "20 立方メートル",
-      soilType: "サンディローム",
-      contactInfo: "090-1234-5678",
-      contactName: "山田太郎",
-      date: "2024-02-20",
-      status: "完了",
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  // Fetch data using React Query
+  const { data: sites = [] } = useQuery({
+    queryKey: ['sites'],
+    queryFn: api.getSites,
+  });
+
+  const { data: transactions = [] } = useQuery({
+    queryKey: ['transactions'],
+    queryFn: api.getTransactions,
+  });
+
+  // Combine sites and transactions for the feed
+  const feedItems: FeedItem[] = [
+    ...transactions.map(transaction => ({
+      ...transaction,
+      type: 'transaction' as const,
+    })),
+    ...sites.map(site => ({
+      id: site.id,
+      type: 'new_site' as const,
+      site,
+      date: new Date().toISOString(),
+    })),
+  ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+  // Mutations for creating new sites and transactions
+  const createSiteMutation = useMutation({
+    mutationFn: api.createSite,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['sites'] });
+      setIsDialogOpen(false);
+      toast({
+        title: "サイトが登録されました",
+        description: "新しいサイトが正常に登録されました。",
+      });
     },
-    {
-      id: 2,
-      type: "new_site",
-      site: {
-        name: "建設現場A",
-        address: "東京都渋谷区123-45",
-        soilAmount: "500 立方メートル",
-        soilType: "サンディローム",
-        contactInfo: "090-8765-4321",
-        contactName: "鈴木花子",
-      } as Site,
-      date: "2024-02-19",
+  });
+
+  const createTransactionMutation = useMutation({
+    mutationFn: api.createTransaction,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['transactions'] });
+      setIsTransactionDialogOpen(false);
+      toast({
+        title: "取引が登録されました",
+        description: "新しい取引が正常に登録されました。",
+      });
     },
-  ]);
+  });
 
   // Form submission handlers
-  const onNewSiteSubmit = (data: Site) => {
-    const newSite = {
-      id: feedItems.length + 1,
-      type: "new_site" as const,
-      site: data,
-      date: new Date().toISOString(),
-    };
-    setFeedItems((prev) => [newSite, ...prev]);
-    setIsDialogOpen(false);
+  const onNewSiteSubmit = (data: Omit<Site, 'id'>) => {
+    createSiteMutation.mutate(data);
   };
 
-  // Updated transaction submission handler to correctly format transaction data
-  const onTransactionSubmit = (data: Omit<Transaction, "id" | "date" | "status" | "type">) => {
-    const newTransaction = {
-      id: feedItems.length + 1,
-      type: "transaction" as const,
-      from: data.from,
-      to: data.to,
-      amount: data.amount,
-      soilType: data.soilType,
-      contactInfo: data.contactInfo,
-      contactName: data.contactName,
-      date: new Date().toISOString(),
-      status: "保留中",
-    };
-    setFeedItems((prev) => [newTransaction, ...prev]);
-    setIsTransactionDialogOpen(false);
+  const onTransactionSubmit = (data: Omit<Transaction, 'id' | 'date' | 'status' | 'type'>) => {
+    createTransactionMutation.mutate(data);
   };
-
-  // Filter transactions and sites from feed items
-  const transactions = feedItems.filter(
-    (item): item is Transaction => item.type === "transaction"
-  );
-
-  const sites = feedItems
-    .filter((item) => item.type === "new_site")
-    .map((item) => ({
-      id: item.id,
-      ...item.site!,
-    }));
 
   return (
     <div className="min-h-screen bg-background">
@@ -141,7 +134,6 @@ const Index = () => {
       {/* Main content with tabs */}
       <div className="container mx-auto px-4 pb-6">
         <Tabs defaultValue="feed" className="w-full space-y-6">
-          {/* Tab navigation */}
           <TabsList className="w-full grid grid-cols-2 md:grid-cols-4 gap-2">
             <TabsTrigger value="feed" className="text-sm md:text-base">
               ライブフィード
