@@ -15,40 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { NewSiteForm } from "@/components/forms/NewSiteForm";
 import { TransactionForm } from "@/components/forms/TransactionForm";
-
-interface Transaction {
-  id: number;
-  type: "transaction";
-  from: string;
-  to: string;
-  amount: string;
-  soilType: string;
-  contactInfo: string;
-  contactName: string;
-  date: string;
-  status: string;
-}
-
-interface FeedItem {
-  id: number;
-  type: "transaction" | "new_site";
-  from?: string;
-  to?: string;
-  amount?: string;
-  soilType?: string;
-  contactInfo?: string;
-  contactName?: string;
-  date: string;
-  status?: string;
-  site?: {
-    name: string;
-    address: string;
-    soilAmount: string;
-    soilType: string;
-    contactInfo: string;
-    contactName: string;
-  };
-}
+import { FeedItem, Transaction, Site } from "@/types";
 
 const Index = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -76,12 +43,12 @@ const Index = () => {
         soilType: "サンディローム",
         contactInfo: "090-8765-4321",
         contactName: "鈴木花子",
-      },
+      } as Site,
       date: "2024-02-19",
     },
   ]);
 
-  const onNewSiteSubmit = (data: any) => {
+  const onNewSiteSubmit = (data: Site) => {
     const newSite = {
       id: feedItems.length + 1,
       type: "new_site" as const,
@@ -91,7 +58,7 @@ const Index = () => {
     setFeedItems((prev) => [newSite, ...prev]);
   };
 
-  const onTransactionSubmit = (data: any) => {
+  const onTransactionSubmit = (data: Omit<Transaction, 'id' | 'date' | 'status'>) => {
     const newTransaction = {
       id: feedItems.length + 1,
       type: "transaction" as const,
@@ -103,8 +70,7 @@ const Index = () => {
   };
 
   const transactions = feedItems.filter(
-    (item): item is FeedItem & { type: "transaction" } =>
-      item.type === "transaction"
+    (item): item is Transaction => item.type === "transaction"
   );
 
   const sites = feedItems
