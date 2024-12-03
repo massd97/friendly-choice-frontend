@@ -1,3 +1,5 @@
+import { Site, Transaction } from '@/types';
+
 /**
  * Base URL for the FastAPI backend
  * In development, this should point to your local FastAPI server
