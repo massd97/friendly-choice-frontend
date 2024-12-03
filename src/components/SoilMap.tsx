@@ -28,12 +28,14 @@ export const SoilMap = ({ sites }: { sites: Site[] }) => {
     parseFloat(site.soilAmount.split(' ')[0]) > 0 && site.location
   );
 
+  const defaultCenter: L.LatLngTuple = [51.505, -0.09];
+
   return (
     <div className="p-4">
       <h2 className="text-xl font-semibold mb-4">Available Soil Sites Map</h2>
       <div style={{ height: "calc(100vh - 280px)" }}>
         <MapContainer
-          center={[51.505, -0.09]}
+          center={defaultCenter}
           zoom={13}
           scrollWheelZoom={false}
           style={{ height: "100%", width: "100%" }}
@@ -42,22 +44,25 @@ export const SoilMap = ({ sites }: { sites: Site[] }) => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
-          {sitesWithSoil.map((site) => (
-            <Marker 
-              key={site.id} 
-              position={[site.location!.lat, site.location!.lng]}
-            >
-              <Popup>
-                <div>
-                  <h3 className="font-bold">{site.name}</h3>
-                  <p>{site.address}</p>
-                  <p>Available Soil: {site.soilAmount}</p>
-                  <p>Soil Type: {site.soilType}</p>
-                  <p>Contact: {site.contactInfo}</p>
-                </div>
-              </Popup>
-            </Marker>
-          ))}
+          {sitesWithSoil.map((site) => {
+            const position: L.LatLngTuple = [site.location!.lat, site.location!.lng];
+            return (
+              <Marker 
+                key={site.id} 
+                position={position}
+              >
+                <Popup>
+                  <div>
+                    <h3 className="font-bold">{site.name}</h3>
+                    <p>{site.address}</p>
+                    <p>Available Soil: {site.soilAmount}</p>
+                    <p>Soil Type: {site.soilType}</p>
+                    <p>Contact: {site.contactInfo}</p>
+                  </div>
+                </Popup>
+              </Marker>
+            );
+          })}
         </MapContainer>
       </div>
     </div>
