@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Menu } from "lucide-react";
+import { PlusCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -31,14 +31,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 
 interface NewSiteForm {
   name: string;
@@ -46,6 +38,7 @@ interface NewSiteForm {
   soilAmount: string;
   soilType: string;
   contactInfo: string;
+  contactName: string;
 }
 
 interface TransactionForm {
@@ -55,6 +48,7 @@ interface TransactionForm {
   amount: string;
   soilType: string;
   contactInfo: string;
+  contactName: string;
 }
 
 const Index = () => {
@@ -68,6 +62,7 @@ const Index = () => {
     amount?: string;
     soilType?: string;
     contactInfo?: string;
+    contactName?: string;
     date: string;
     status?: string;
     site?: {
@@ -76,6 +71,7 @@ const Index = () => {
       soilAmount: string;
       soilType: string;
       contactInfo: string;
+      contactName: string;
     };
   }>>([
     {
@@ -110,6 +106,7 @@ const Index = () => {
       soilAmount: "",
       soilType: "",
       contactInfo: "",
+      contactName: "",
     },
   });
 
@@ -121,6 +118,7 @@ const Index = () => {
       amount: "",
       soilType: "",
       contactInfo: "",
+      contactName: "",
     },
   });
 
@@ -134,6 +132,7 @@ const Index = () => {
         soilAmount: data.soilAmount,
         soilType: data.soilType,
         contactInfo: data.contactInfo,
+        contactName: data.contactName,
       },
       date: new Date().toISOString(),
     };
@@ -141,7 +140,7 @@ const Index = () => {
     setFeedItems((prev) => [newSite, ...prev]);
     form.reset();
     setIsDialogOpen(false);
-    toast.success("New site registered successfully!");
+    toast.success("新規サイトが登録されました！");
   };
 
   const onTransactionSubmit = (data: TransactionForm) => {
@@ -153,6 +152,7 @@ const Index = () => {
       amount: data.amount,
       soilType: data.soilType,
       contactInfo: data.contactInfo,
+      contactName: data.contactName,
       date: new Date().toISOString(),
       status: "pending",
     };
@@ -160,11 +160,11 @@ const Index = () => {
     setFeedItems((prev) => [newTransaction, ...prev]);
     transactionForm.reset();
     setIsTransactionDialogOpen(false);
-    toast.success("Transaction registered successfully!");
+    toast.success("取引が登録されました！");
   };
 
   const transactions = feedItems
-    .filter((item): item is { id: number; type: "transaction"; from: string; to: string; amount: string; soilType: string; contactInfo: string; date: string; status: string; } => item.type === "transaction");
+    .filter((item): item is { id: number; type: "transaction"; from: string; to: string; amount: string; soilType: string; contactInfo: string; contactName: string; date: string; status: string; } => item.type === "transaction");
     
   const sites = feedItems
     .filter((item) => item.type === "new_site")
@@ -175,23 +175,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background p-4 space-y-6">
-      <div className="flex justify-between items-center pt-16">
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="outline" size="icon" className="h-14 w-14">
-              <Menu className="h-6 w-6" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left">
-            <SheetHeader>
-              <SheetTitle>メニュー</SheetTitle>
-              <SheetDescription>
-                アプリケーションの各セクションにアクセス
-              </SheetDescription>
-            </SheetHeader>
-          </SheetContent>
-        </Sheet>
-
+      <div className="flex justify-end items-center pt-16">
         <div className="flex gap-4">
           <Dialog open={isTransactionDialogOpen} onOpenChange={setIsTransactionDialogOpen}>
             <DialogTrigger asChild>
@@ -281,12 +265,25 @@ const Index = () => {
                   />
                   <FormField
                     control={transactionForm.control}
+                    name="contactName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>担当者名</FormLabel>
+                        <FormControl>
+                          <Input placeholder="例: 山田太郎" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={transactionForm.control}
                     name="contactInfo"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>連絡先情報</FormLabel>
                         <FormControl>
-                          <Input placeholder="例: John Doe (555-0123)" {...field} />
+                          <Input placeholder="例: 090-1234-5678" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -367,12 +364,25 @@ const Index = () => {
                   />
                   <FormField
                     control={form.control}
+                    name="contactName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>担当者名</FormLabel>
+                        <FormControl>
+                          <Input placeholder="例: 山田太郎" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
                     name="contactInfo"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>連絡先情報</FormLabel>
                         <FormControl>
-                          <Input placeholder="例: John Doe (555-0123)" {...field} />
+                          <Input placeholder="例: 090-1234-5678" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

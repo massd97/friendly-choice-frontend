@@ -17,6 +17,7 @@ interface Site {
   soilAmount: string;
   soilType: string;
   contactInfo: string;
+  contactName: string;
   location?: {
     lat: number;
     lng: number;
@@ -29,14 +30,14 @@ export const SoilMap = ({ sites }: { sites: Site[] }) => {
   );
 
   // Center on Tokyo, Japan
-  const defaultCenter: L.LatLngTuple = [35.6762, 139.6503];
+  const defaultCenter = [35.6762, 139.6503];
 
   return (
     <div className="p-4">
       <h2 className="text-xl font-semibold mb-4">土壌サイトマップ</h2>
       <div style={{ height: "calc(100vh - 280px)", position: "relative", zIndex: 0 }}>
         <MapContainer
-          center={defaultCenter}
+          center={defaultCenter as [number, number]}
           zoom={5}
           scrollWheelZoom={true}
           style={{ height: "100%", width: "100%" }}
@@ -48,7 +49,7 @@ export const SoilMap = ({ sites }: { sites: Site[] }) => {
           {sitesWithSoil.map((site) => (
             <Marker 
               key={site.id} 
-              position={[site.location!.lat, site.location!.lng] as L.LatLngTuple}
+              position={[site.location!.lat, site.location!.lng] as [number, number]}
             >
               <Popup>
                 <div>
@@ -56,6 +57,7 @@ export const SoilMap = ({ sites }: { sites: Site[] }) => {
                   <p>{site.address}</p>
                   <p>利用可能な土壌: {site.soilAmount}</p>
                   <p>土壌タイプ: {site.soilType}</p>
+                  <p>担当者: {site.contactName}</p>
                   <p>連絡先: {site.contactInfo}</p>
                 </div>
               </Popup>
