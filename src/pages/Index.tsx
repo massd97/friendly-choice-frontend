@@ -58,7 +58,7 @@ const Index = () => {
     setFeedItems((prev) => [newSite, ...prev]);
   };
 
-  const onTransactionSubmit = (data: { type: "request" | "accept" } & Omit<Transaction, "id" | "date" | "status" | "type">) => {
+  const onTransactionSubmit = (data: Omit<Transaction, "id" | "date" | "status" | "type">) => {
     const newTransaction = {
       id: feedItems.length + 1,
       type: "transaction" as const,
@@ -123,27 +123,25 @@ const Index = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-2">
-        <Tabs defaultValue="feed" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 mb-4">
+        <Tabs defaultValue="feed" className="w-full space-y-6">
+          <TabsList className="w-full grid grid-cols-2 md:grid-cols-4 gap-2 p-1">
             <TabsTrigger value="feed" className="text-sm md:text-base">ライブフィード</TabsTrigger>
             <TabsTrigger value="sites" className="text-sm md:text-base">利用可能なサイト</TabsTrigger>
             <TabsTrigger value="transactions" className="text-sm md:text-base">取引履歴</TabsTrigger>
             <TabsTrigger value="map" className="text-sm md:text-base">土壌マップ</TabsTrigger>
           </TabsList>
-          <div className="mt-4">
-            <TabsContent value="feed">
-              <LiveFeed feedItems={feedItems} />
-            </TabsContent>
-            <TabsContent value="sites">
-              <AvailableSites sites={sites} />
-            </TabsContent>
-            <TabsContent value="transactions">
-              <TransactionHistory transactions={transactions} />
-            </TabsContent>
-            <TabsContent value="map">
-              <SoilMap sites={sites} />
-            </TabsContent>
-          </div>
+          <TabsContent value="feed">
+            <LiveFeed feedItems={feedItems} />
+          </TabsContent>
+          <TabsContent value="sites">
+            <AvailableSites sites={sites} />
+          </TabsContent>
+          <TabsContent value="transactions">
+            <TransactionHistory transactions={transactions} />
+          </TabsContent>
+          <TabsContent value="map">
+            <SoilMap sites={sites} />
+          </TabsContent>
         </Tabs>
       </div>
     </div>
