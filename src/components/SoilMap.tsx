@@ -1,7 +1,6 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { Card } from './ui/card';
 
 // Fix for default marker icon
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -30,12 +29,13 @@ export const SoilMap = ({ sites }: { sites: Site[] }) => {
   );
 
   return (
-    <Card className="p-4">
+    <div className="p-4">
       <h2 className="text-xl font-semibold mb-4">Available Soil Sites Map</h2>
       <div style={{ height: "calc(100vh - 280px)" }}>
         <MapContainer
-          center={[51.505, -0.09] as L.LatLngExpression}
+          center={[51.505, -0.09]}
           zoom={13}
+          scrollWheelZoom={false}
           style={{ height: "100%", width: "100%" }}
         >
           <TileLayer
@@ -45,7 +45,7 @@ export const SoilMap = ({ sites }: { sites: Site[] }) => {
           {sitesWithSoil.map((site) => (
             <Marker 
               key={site.id} 
-              position={[site.location!.lat, site.location!.lng] as L.LatLngExpression}
+              position={[site.location!.lat, site.location!.lng]}
             >
               <Popup>
                 <div>
@@ -60,6 +60,6 @@ export const SoilMap = ({ sites }: { sites: Site[] }) => {
           ))}
         </MapContainer>
       </div>
-    </Card>
+    </div>
   );
 };
