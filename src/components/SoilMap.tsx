@@ -34,7 +34,7 @@ export const SoilMap = ({ sites }: { sites: Site[] }) => {
       <h2 className="text-xl font-semibold mb-4">Available Soil Sites Map</h2>
       <div style={{ height: "calc(100vh - 280px)" }}>
         <MapContainer
-          center={[51.505, -0.09]}
+          center={L.latLng(51.505, -0.09)}
           zoom={13}
           style={{ height: "100%", width: "100%" }}
         >
