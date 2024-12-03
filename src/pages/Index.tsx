@@ -83,7 +83,10 @@ const Index = () => {
   };
 
   const onTransactionSubmit = (data: Omit<Transaction, 'id' | 'date' | 'status' | 'type'>) => {
-    createTransactionMutation.mutate(data);
+    createTransactionMutation.mutate({
+      ...data,
+      type: 'transaction'  // Add the type property
+    });
   };
 
   return (
