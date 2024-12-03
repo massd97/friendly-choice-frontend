@@ -184,9 +184,9 @@ const Index = () => {
           </SheetTrigger>
           <SheetContent side="left">
             <SheetHeader>
-              <SheetTitle>Menu</SheetTitle>
+              <SheetTitle>メニュー</SheetTitle>
               <SheetDescription>
-                Access different sections of the application
+                アプリケーションの各セクションにアクセス
               </SheetDescription>
             </SheetHeader>
           </SheetContent>
@@ -197,12 +197,12 @@ const Index = () => {
             <DialogTrigger asChild>
               <Button className="flex items-center gap-2 h-14">
                 <PlusCircle className="w-5 h-5" />
-                New Transaction
+                新規取引
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Register New Transaction</DialogTitle>
+                <DialogTitle>新規取引の登録</DialogTitle>
               </DialogHeader>
               <Form {...transactionForm}>
                 <form onSubmit={transactionForm.handleSubmit(onTransactionSubmit)} className="space-y-4">
@@ -211,16 +211,16 @@ const Index = () => {
                     name="type"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Transaction Type</FormLabel>
+                        <FormLabel>取引タイプ</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select transaction type" />
+                              <SelectValue placeholder="取引タイプを選択" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="request">Request Soil</SelectItem>
-                            <SelectItem value="accept">Accept Request</SelectItem>
+                            <SelectItem value="request">土壌要求</SelectItem>
+                            <SelectItem value="accept">要求承認</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -232,9 +232,9 @@ const Index = () => {
                     name="from"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>From Site</FormLabel>
+                        <FormLabel>送信元サイト</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter source site" {...field} />
+                          <Input placeholder="ソースサイトを入力" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -245,9 +245,9 @@ const Index = () => {
                     name="to"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>To Site</FormLabel>
+                        <FormLabel>宛先サイト</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter destination site" {...field} />
+                          <Input placeholder="宛先サイトを入力" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -258,9 +258,9 @@ const Index = () => {
                     name="amount"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Amount</FormLabel>
+                        <FormLabel>量</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g., 500 cubic meters" {...field} />
+                          <Input placeholder="例: 500 立方メートル" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -271,9 +271,9 @@ const Index = () => {
                     name="soilType"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Soil Type</FormLabel>
+                        <FormLabel>土壌タイプ</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g., Sandy loam" {...field} />
+                          <Input placeholder="例: サンディローム" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -284,16 +284,16 @@ const Index = () => {
                     name="contactInfo"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Contact Information</FormLabel>
+                        <FormLabel>連絡先情報</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g., John Doe (555-0123)" {...field} />
+                          <Input placeholder="例: John Doe (555-0123)" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                   <Button type="submit" className="w-full">
-                    Register Transaction
+                    取引を登録
                   </Button>
                 </form>
               </Form>
@@ -304,12 +304,12 @@ const Index = () => {
             <DialogTrigger asChild>
               <Button className="flex items-center gap-2 h-14">
                 <PlusCircle className="w-5 h-5" />
-                Register New Site
+                新規サイト登録
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Register New Site</DialogTitle>
+                <DialogTitle>新規サイトの登録</DialogTitle>
               </DialogHeader>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -318,9 +318,9 @@ const Index = () => {
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Site Name</FormLabel>
+                        <FormLabel>サイト名</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter site name" {...field} />
+                          <Input placeholder="サイト名を入力" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -331,9 +331,9 @@ const Index = () => {
                     name="address"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Address</FormLabel>
+                        <FormLabel>住所</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter site address" {...field} />
+                          <Input placeholder="サイトの住所を入力" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -344,9 +344,9 @@ const Index = () => {
                     name="soilAmount"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Soil Amount</FormLabel>
+                        <FormLabel>土壌量</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g., 500 cubic meters" {...field} />
+                          <Input placeholder="例: 500 立方メートル" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -357,9 +357,9 @@ const Index = () => {
                     name="soilType"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Soil Type</FormLabel>
+                        <FormLabel>土壌タイプ</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g., Sandy loam" {...field} />
+                          <Input placeholder="例: サンディローム" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -370,16 +370,16 @@ const Index = () => {
                     name="contactInfo"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Contact Information</FormLabel>
+                        <FormLabel>連絡先情報</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g., John Doe (555-0123)" {...field} />
+                          <Input placeholder="例: John Doe (555-0123)" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                   <Button type="submit" className="w-full">
-                    Register Site
+                    サイトを登録
                   </Button>
                 </form>
               </Form>
@@ -390,10 +390,10 @@ const Index = () => {
 
       <Tabs defaultValue="feed" className="w-full">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="feed">Live Feed</TabsTrigger>
-          <TabsTrigger value="sites">Available Sites</TabsTrigger>
-          <TabsTrigger value="transactions">Transaction History</TabsTrigger>
-          <TabsTrigger value="map">Soil Map</TabsTrigger>
+          <TabsTrigger value="feed">ライブフィード</TabsTrigger>
+          <TabsTrigger value="sites">利用可能なサイト</TabsTrigger>
+          <TabsTrigger value="transactions">取引履歴</TabsTrigger>
+          <TabsTrigger value="map">土壌マップ</TabsTrigger>
         </TabsList>
         <TabsContent value="feed">
           <LiveFeed feedItems={feedItems} />

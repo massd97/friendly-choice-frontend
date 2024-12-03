@@ -29,26 +29,26 @@ export const SoilMap = ({ sites }: { sites: Site[] }) => {
   );
 
   // Center on Tokyo, Japan
-  const defaultCenter = { lat: 35.6762, lng: 139.6503 };
+  const defaultCenter: L.LatLngTuple = [35.6762, 139.6503];
 
   return (
     <div className="p-4">
       <h2 className="text-xl font-semibold mb-4">土壌サイトマップ</h2>
       <div style={{ height: "calc(100vh - 280px)", position: "relative", zIndex: 0 }}>
         <MapContainer
-          center={[defaultCenter.lat, defaultCenter.lng]}
+          center={defaultCenter}
           zoom={5}
           scrollWheelZoom={true}
           style={{ height: "100%", width: "100%" }}
         >
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
           {sitesWithSoil.map((site) => (
             <Marker 
               key={site.id} 
-              position={[site.location!.lat, site.location!.lng]}
+              position={[site.location!.lat, site.location!.lng] as L.LatLngTuple}
             >
               <Popup>
                 <div>
