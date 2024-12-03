@@ -34,7 +34,7 @@ export const SoilMap = ({ sites }: { sites: Site[] }) => {
       <h2 className="text-xl font-semibold mb-4">Available Soil Sites Map</h2>
       <div style={{ height: "calc(100vh - 280px)" }}>
         <MapContainer
-          center={L.latLng(51.505, -0.09)}
+          center={[51.505, -0.09] as L.LatLngExpression}
           zoom={13}
           style={{ height: "100%", width: "100%" }}
         >
@@ -45,7 +45,7 @@ export const SoilMap = ({ sites }: { sites: Site[] }) => {
           {sitesWithSoil.map((site) => (
             <Marker 
               key={site.id} 
-              position={[site.location!.lat, site.location!.lng]}
+              position={[site.location!.lat, site.location!.lng] as L.LatLngExpression}
             >
               <Popup>
                 <div>
