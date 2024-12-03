@@ -16,6 +16,19 @@ import {
 import { NewSiteForm } from "@/components/forms/NewSiteForm";
 import { TransactionForm } from "@/components/forms/TransactionForm";
 
+interface Transaction {
+  id: number;
+  type: "transaction";
+  from: string;
+  to: string;
+  amount: string;
+  soilType: string;
+  contactInfo: string;
+  contactName: string;
+  date: string;
+  status: string;
+}
+
 interface FeedItem {
   id: number;
   type: "transaction" | "new_site";
