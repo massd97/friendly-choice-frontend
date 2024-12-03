@@ -1,5 +1,9 @@
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import { useState } from 'react';
+import { Input } from './ui/input';
+import { Button } from './ui/button';
+import { Search } from 'lucide-react';
+import { useToast } from './ui/use-toast';
 
 // Define TypeScript interfaces for better type safety
 interface Site {
@@ -31,16 +35,60 @@ const defaultCenter = {
 export const SoilMap = ({ sites }: { sites: Site[] }) => {
   // State for managing the selected site in the InfoWindow
   const [selectedSite, setSelectedSite] = useState<Site | null>(null);
+  const [searchAddress, setSearchAddress] = useState('');
+  const [mapInstance, setMapInstance] = useState<google.maps.Map | null>(null);
+  const { toast } = useToast();
 
   // Filter out sites that have soil and valid location data
   const sitesWithSoil = sites.filter(site => 
     parseFloat(site.soilAmount.split(' ')[0]) > 0 && site.location
   );
 
+  const handleSearch = () => {
+    if (!mapInstance || !searchAddress) return;
+
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ address: searchAddress }, (results, status) => {
+      if (status === 'OK' && results && results[0]) {
+        const location = results[0].geometry.location;
+        mapInstance.setCenter(location);
+        mapInstance.setZoom(15);
+        toast({
+          title: "場所が見つかりました",
+          description: results[0].formatted_address,
+        });
+      } else {
+        toast({
+          title: "エラー",
+          description: "住所が見つかりませんでした。",
+          variant: "destructive",
+        });
+      }
+    });
+  };
+
   return (
     <div className="w-full p-2 md:p-4">
-      {/* Map title */}
-      <h2 className="text-xl font-semibold mb-4 px-2">土壌サイトマップ</h2>
+      {/* Map title and search bar */}
+      <div className="mb-4 px-2">
+        <h2 className="text-xl font-semibold mb-4">土壌サイトマップ</h2>
+        <div className="flex gap-2">
+          <Input
+            placeholder="住所を検索..."
+            value={searchAddress}
+            onChange={(e) => setSearchAddress(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleSearch();
+              }
+            }}
+            className="max-w-md"
+          />
+          <Button onClick={handleSearch}>
+            <Search className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
       
       {/* Map container with responsive height */}
       <div className="relative w-full h-[50vh] md:h-[calc(100vh-280px)] rounded-lg overflow-hidden">
@@ -55,6 +103,7 @@ export const SoilMap = ({ sites }: { sites: Site[] }) => {
               mapTypeControl: true,
               fullscreenControl: true,
             }}
+            onLoad={(map) => setMapInstance(map)}
           >
             {/* Render markers for each site with soil */}
             {sitesWithSoil.map((site) => (
