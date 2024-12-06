@@ -27,32 +27,95 @@ const Index = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  // Fetch data using React Query
-  const { data: sites = [] } = useQuery({
-    queryKey: ['sites'],
-    queryFn: api.getSites,
-  });
+  // Example sites data
+  const exampleSites: Site[] = [
+    {
+      id: 1,
+      name: "東京建設現場A",
+      address: "東京都新宿区西新宿2-8-1",
+      soilAmount: "1000 m³",
+      soilType: "黒土",
+      contactInfo: "03-1234-5678",
+      contactName: "田中太郎",
+      location: { lat: 35.6894, lng: 139.6917 }
+    },
+    {
+      id: 2,
+      name: "横浜工事現場B",
+      address: "神奈川県横浜市西区みなとみらい2-3-1",
+      soilAmount: "750 m³",
+      soilType: "赤土",
+      contactInfo: "045-1234-5678",
+      contactName: "鈴木一郎",
+      location: { lat: 35.4567, lng: 139.6325 }
+    },
+    {
+      id: 3,
+      name: "千葉建設サイトC",
+      address: "千葉県千葉市中央区中央4-5-1",
+      soilAmount: "500 m³",
+      soilType: "山土",
+      contactInfo: "043-1234-5678",
+      contactName: "佐藤花子",
+      location: { lat: 35.6089, lng: 140.1234 }
+    }
+  ];
 
-  const { data: transactions = [] } = useQuery({
-    queryKey: ['transactions'],
-    queryFn: api.getTransactions,
-  });
+  // Example transactions data
+  const exampleTransactions: Transaction[] = [
+    {
+      id: 1,
+      type: "transaction",
+      from: "東京建設現場A",
+      to: "横浜工事現場B",
+      amount: "200 m³",
+      soilType: "黒土",
+      contactInfo: "03-1234-5678",
+      date: "2024-03-10",
+      status: "completed"
+    },
+    {
+      id: 2,
+      type: "transaction",
+      from: "千葉建設サイトC",
+      to: "東京建設現場A",
+      amount: "150 m³",
+      soilType: "山土",
+      contactInfo: "043-1234-5678",
+      date: "2024-03-09",
+      status: "pending"
+    }
+  ];
 
-  // Combine sites and transactions for the feed
-  const feedItems: FeedItem[] = [
-    ...transactions.map(transaction => ({
-      ...transaction,
-      type: 'transaction' as const,
-    })),
-    ...sites.map(site => ({
-      id: site.id,
-      type: 'new_site' as const,
-      site,
-      date: new Date().toISOString(),
-    })),
+  // Example feed items combining both transactions and new site registrations
+  const exampleFeedItems: FeedItem[] = [
+    ...exampleTransactions,
+    {
+      id: 3,
+      type: "new_site",
+      date: "2024-03-08",
+      site: exampleSites[0]
+    },
+    {
+      id: 4,
+      type: "new_site",
+      date: "2024-03-07",
+      site: exampleSites[1]
+    }
   ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-  // Mutations for creating new sites and transactions
+  // Mock queries to use example data
+  const { data: sites = exampleSites } = useQuery({
+    queryKey: ['sites'],
+    queryFn: () => Promise.resolve(exampleSites),
+  });
+
+  const { data: transactions = exampleTransactions } = useQuery({
+    queryKey: ['transactions'],
+    queryFn: () => Promise.resolve(exampleTransactions),
+  });
+
+  // Form submission handlers
   const createSiteMutation = useMutation({
     mutationFn: api.createSite,
     onSuccess: () => {
@@ -77,7 +140,6 @@ const Index = () => {
     },
   });
 
-  // Form submission handlers
   const onNewSiteSubmit = (data: Omit<Site, 'id'>) => {
     createSiteMutation.mutate(data);
   };
@@ -85,7 +147,7 @@ const Index = () => {
   const onTransactionSubmit = (data: Omit<Transaction, 'id' | 'date' | 'status' | 'type'>) => {
     createTransactionMutation.mutate({
       ...data,
-      type: 'transaction'  // Add the type property
+      type: 'transaction'
     });
   };
 
@@ -154,7 +216,7 @@ const Index = () => {
 
           {/* Tab content */}
           <TabsContent value="feed">
-            <LiveFeed feedItems={feedItems} />
+            <LiveFeed feedItems={exampleFeedItems} />
           </TabsContent>
           <TabsContent value="sites">
             <AvailableSites sites={sites} />
