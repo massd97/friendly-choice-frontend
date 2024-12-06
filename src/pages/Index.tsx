@@ -23,9 +23,9 @@ const Index = () => {
     queryFn: () => Promise.resolve(exampleSites),
   });
 
-  const { data: transactions = exampleTransactions } = useQuery({
+  const { data: transactions = exampleTransactions as Transaction[] } = useQuery({
     queryKey: ['transactions'],
-    queryFn: () => Promise.resolve(exampleTransactions),
+    queryFn: () => Promise.resolve(exampleTransactions as Transaction[]),
   });
 
   // Form submission handlers
