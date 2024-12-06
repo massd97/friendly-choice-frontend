@@ -85,7 +85,7 @@ export const LiveFeed = ({ feedItems }: { feedItems: FeedItem[] }) => {
                       {item.site?.soilAmount} of {item.site?.soilType}
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      Contact: {item.site?.contactInfo}
+                      連絡先: {item.site?.contactInfo}
                     </p>
                   </div>
                   <div className="text-right">
