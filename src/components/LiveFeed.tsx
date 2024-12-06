@@ -24,7 +24,7 @@ interface FeedItem {
 export const LiveFeed = ({ feedItems }: { feedItems: FeedItem[] }) => {
   return (
     <Card className="p-4">
-      <h2 className="text-xl font-semibold mb-4">Live Activity Feed</h2>
+      <h2 className="text-xl font-semibold mb-4">アクティビティフィード</h2>
       {/* Scrollable area for feed items with dynamic height */}
       <ScrollArea className="h-[calc(100vh-280px)]">
         <div className="space-y-4">
@@ -76,7 +76,7 @@ export const LiveFeed = ({ feedItems }: { feedItems: FeedItem[] }) => {
                 <div className="flex justify-between items-start">
                   <div>
                     <p className="font-medium">
-                      New Site Registered: {item.site?.name}
+                      現場新規登録: {item.site?.name}
                     </p>
                     <p className="text-sm text-muted-foreground">
                       {item.site?.address}
@@ -93,7 +93,7 @@ export const LiveFeed = ({ feedItems }: { feedItems: FeedItem[] }) => {
                       {new Date(item.date).toLocaleDateString()}
                     </p>
                     <span className="text-xs text-blue-500">
-                      NEW SITE
+                      新規現場
                     </span>
                   </div>
                 </div>

@@ -52,12 +52,12 @@ export const ActionButtons = ({
         <DialogTrigger asChild>
           <Button className="flex items-center gap-2 h-12">
             <PlusCircle className="w-5 h-5" />
-            新規サイト登録
+            現場新規登録
           </Button>
         </DialogTrigger>
         <DialogContent className="max-w-lg">
           <DialogHeader>
-            <DialogTitle>新規サイトの登録</DialogTitle>
+            <DialogTitle>現場の新規登録</DialogTitle>
           </DialogHeader>
           <NewSiteForm
             onSubmit={onNewSiteSubmit}

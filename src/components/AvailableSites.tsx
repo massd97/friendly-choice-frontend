@@ -27,12 +27,12 @@ export const AvailableSites = ({ sites }: { sites: Site[] }) => {
 
   return (
     <Card className="p-4">
-      <h2 className="text-xl font-semibold mb-4">利用可能なサイト</h2>
+      <h2 className="text-xl font-semibold mb-4">利用可能な現場</h2>
       {/* Search input with icon */}
       <div className="relative mb-4">
         <Search className="absolute left-2 top-3 h-4 w-4 text-muted-foreground" />
         <Input
-          placeholder="サイトを検索..."
+          placeholder="現場を検索..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="pl-8"
