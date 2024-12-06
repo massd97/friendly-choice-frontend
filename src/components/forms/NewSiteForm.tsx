@@ -18,6 +18,9 @@ interface NewSiteForm {
   soilType: string;
   contactInfo: string;
   contactName: string;
+  maxDumpSize: string;
+  period: string;
+  hasShortHaulage: string;
 }
 
 interface NewSiteFormProps {
@@ -34,6 +37,9 @@ export const NewSiteForm = ({ onSubmit, onClose }: NewSiteFormProps) => {
       soilType: "",
       contactInfo: "",
       contactName: "",
+      maxDumpSize: "",
+      period: "",
+      hasShortHaulage: "",
     },
   });
 
@@ -91,9 +97,48 @@ export const NewSiteForm = ({ onSubmit, onClose }: NewSiteFormProps) => {
           name="soilType"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>土壌タイプ</FormLabel>
+              <FormLabel>土質</FormLabel>
               <FormControl>
-                <Input placeholder="例: サンディローム" {...field} />
+                <Input placeholder="例: 砂質土" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="maxDumpSize"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>侵入可能最大ダンプサイズ</FormLabel>
+              <FormControl>
+                <Input placeholder="例: 10t" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="period"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>期間</FormLabel>
+              <FormControl>
+                <Input placeholder="例: 2024年4月〜2024年9月" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="hasShortHaulage"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>小運搬有無</FormLabel>
+              <FormControl>
+                <Input placeholder="例: 有り/無し" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -119,7 +164,7 @@ export const NewSiteForm = ({ onSubmit, onClose }: NewSiteFormProps) => {
             <FormItem>
               <FormLabel>連絡先情報</FormLabel>
               <FormControl>
-                <Input placeholder="例: 090-1234-5678" {...field} />
+                <Input placeholder="例: example@email.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
