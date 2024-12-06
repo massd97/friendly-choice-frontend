@@ -49,13 +49,13 @@ export const LiveFeed = ({ feedItems }: { feedItems: FeedItem[] }) => {
                       {item.from} → {item.to}
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      Amount: {item.amount}
+                      数量: {item.amount}
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      Soil Type: {item.soilType}
+                      土質: {item.soilType}
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      Contact: {item.contactInfo}
+                      連絡先: {item.contactInfo}
                     </p>
                   </div>
                   <div className="text-right">

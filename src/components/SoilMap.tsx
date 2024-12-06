@@ -71,7 +71,7 @@ export const SoilMap = ({ sites }: { sites: Site[] }) => {
     <div className="w-full p-2 md:p-4">
       {/* Map title and search bar */}
       <div className="mb-4 px-2">
-        <h2 className="text-xl font-semibold mb-4">土壌現場マップ</h2>
+        <h2 className="text-xl font-semibold mb-4">マップ</h2>
         <div className="flex gap-2">
           <Input
             placeholder="住所を検索..."
