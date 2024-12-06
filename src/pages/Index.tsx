@@ -84,13 +84,13 @@ const Index = () => {
               ライブフィード
             </TabsTrigger>
             <TabsTrigger value="sites" className="text-sm md:text-base">
-              利用可能なサイト
+              利用可能残土
             </TabsTrigger>
             <TabsTrigger value="transactions" className="text-sm md:text-base">
               取引履歴
             </TabsTrigger>
             <TabsTrigger value="map" className="text-sm md:text-base">
-              土壌マップ
+              マップ
             </TabsTrigger>
           </TabsList>
 
